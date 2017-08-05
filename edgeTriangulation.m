@@ -189,6 +189,8 @@ xlabel('x'), ylabel('y'), zlabel('z')
 disp('+ Saving data...')
 if savefile == 1;
     pcwrite(ptCloudValid,['pointCloud_',imagename])
+    save(['matched_edges_(',imagename,').mat'],'matched_cam_edges',...
+        'matched_proj_edges','Rcam','Gcam','Bcam','vertices')
     display('Results SAVED.')
 else
     display('Results were NOT saved.')
