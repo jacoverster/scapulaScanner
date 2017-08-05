@@ -35,4 +35,4 @@ title 'Surface curvature'
 xlabel('x'), ylabel('y'), zlabel('z')
 
 %write the gridfit data to an .stl mesh file
-stlwrite('test2.stl',gx,gy,gz)
+stlwrite('test.stl',gx,gy,gz)
