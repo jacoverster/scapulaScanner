@@ -36,3 +36,5 @@ xlabel('x'), ylabel('y'), zlabel('z')
 
 %write the gridfit data to an .stl mesh file
 stlwrite('test.stl',gx,gy,gz)
+
+%donkey
