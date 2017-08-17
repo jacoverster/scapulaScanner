@@ -199,8 +199,8 @@ C = imcrop(I, ...
     [bounds(1) bounds(3) (bounds(2)-bounds(1)) (bounds(4)-bounds(3))]);
 
 %Load path where noise filtering function is stored
-addpath(['/Users/jacoverster/Documents/My Documents/BME/SLS Software/'...
-    'Matlab toolboxes/toolbox_nlmeans_version2']);
+addpath(['/Users/jacoverster/Documents/MATLAB/Add-Ons/'...
+    'toolbox_nlmeans_version2']);
 
 %Noise filtering function settings
 Options.kernelratio = 4;
