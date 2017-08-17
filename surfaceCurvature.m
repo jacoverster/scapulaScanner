@@ -34,6 +34,12 @@ surf(-X,Y,-gz,H,'facecolor','interp'); %mirror x and z coordinates to align
 title 'Surface curvature'
 xlabel('x'), ylabel('y'), zlabel('z')
 
+%calculate and plot surface normals
+figure
+surfnorm(X,Y,gz)
+title 'Surface normals'
+xlabel('x'), ylabel('y'), zlabel('z')
+
 %write the gridfit data to an .stl mesh file
 stlwrite('test.stl',gx,gy,gz)
 
