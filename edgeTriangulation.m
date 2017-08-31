@@ -178,6 +178,7 @@ disp('+ Displaying point cloud...')
 %Create a pointCloud class from points and color information
 ptCloud = pointCloud(vertices,'Color',colours);
 ptCloudValid = removeInvalidPoints(ptCloud); %remove invalid (NaN) points
+ptCloudDenoise = pcdenoise(ptCloudValid,'NumNeighbors',25);
 
 % Display the point cloud with per-vertex color.
 %player = pcplayer(ptCloud.XLimits,ptCloud.YLimits,[480,560]);

@@ -3,11 +3,11 @@ clc, clear ,close all
 
 tic
 
-imagename = 'nic01.JPG';
+imagename = '2017_04_20Jaco3.JPG';
 
 %imageCleanup(imagename,1);
 
-%orientation = 'L'; %L = landscape, P = portrait
+orientation = 'P'; %L = landscape, P = portrait
 %edgeMatching(imagename,orientation,1);
 
 edgeTriangulation(imagename,1);

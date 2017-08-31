@@ -432,7 +432,7 @@ Percentage_unmatched = 100*unmatched_edges/numel(matched_cam_edges)
 
 %Plot a few matched locations on both proj and cam images to visually
 %verify good matching
-cam_win = 30;
+cam_win = 25;
 proj_win = 10;
 marker1 = 0.25;
 marker2 = 0.75;

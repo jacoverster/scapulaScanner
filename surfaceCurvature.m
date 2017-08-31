@@ -1,18 +1,22 @@
-function surfaceCurvature(vertices)
+function surfaceCurvature(pointcloud)
+% This function calculates the surface curvature from a set of points
+%Input: a point cloud
+% 
+%Created by: Jaco Verster (versterrie@gmail.com)
+%
 
 %Extract vertices data and convert to vector
-x = vertices(:,:,1);
-y = vertices(:,:,2);
-z = vertices(:,:,3);
-
-x = x(:);
-y = y(:);
-z = z(:);
+x = pointcloud.Location(:,1);
+y = pointcloud.Location(:,2);
+z = pointcloud.Location(:,3);
 
 %Create a grid to match the surface using gridfit
-gx = min(x):4:max(x);
-gy = min(y):4:max(y);
-gz = gridfit(x,y,z,gx,gy);
+gx = pointcloud.XLimits(1):4:pointcloud.XLimits(2);
+gy = pointcloud.YLimits(1):4:pointcloud.YLimits(2);
+gz = gridfit(x,y,z,gx,gy); %,'regularizer','springs','smoothness',[0.1 1]);
+
+%after experimenting with the above variation I could not really beat the
+%"out of the box performance of gridfit - decided to keep settings 'default'
 
 %Plot the surface and pointcloud to verify if a good fit was found
 figure
@@ -20,7 +24,8 @@ colormap(hot(256));
 surf(-gx,gy,-gz); %mirror x and z coordinates to align
 camlight right;
 lighting phong;
-%line(x,y,z,'marker','.','markersize',4,'linestyle','none');
+hold on
+scatter3(-x,y,-z,'.');
 title 'Gridfit surface and pointcloud data'
 xlabel('x'), ylabel('y'), zlabel('z')
 
