@@ -6,13 +6,13 @@ function surfaceCurvature(pointcloud)
 %
 
 %Extract vertices data and convert to vector
-x = pointcloud.Location(:,1);
-y = pointcloud.Location(:,2);
-z = pointcloud.Location(:,3);
+x = double(pointcloud.Location(:,1));
+y = double(pointcloud.Location(:,2));
+z = double(pointcloud.Location(:,3));
 
 %Create a grid to match the surface using gridfit
-gx = pointcloud.XLimits(1):4:pointcloud.XLimits(2);
-gy = pointcloud.YLimits(1):4:pointcloud.YLimits(2);
+gx = double(pointcloud.XLimits(1)):4:double(pointcloud.XLimits(2));
+gy = double(pointcloud.YLimits(1)):4:double(pointcloud.YLimits(2));
 gz = gridfit(x,y,z,gx,gy); %,'regularizer','springs','smoothness',[0.1 1]);
 
 %after experimenting with the above variation I could not really beat the

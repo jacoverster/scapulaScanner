@@ -298,15 +298,23 @@ for i = 1:S_cam(1)
         %max_edges
         from = matched_loc_in_deB;
         to = matched_loc_in_deB + nr_of_proj_edges - 1;
-        matched_proj_edges(i,:) = loc_proj_edges(from:to);
+        
+        %also check if to < length(loc_proj_edges) to ensure the maximum
+        %does not exceed possible edge matches incorrectly
+        if to < length(loc_proj_edges)
+            matched_proj_edges(i,:) = loc_proj_edges(from:to);
 
-        %compile the edge matrix
-        edge_grad_proj_R(i,1:nr_of_proj_edges) = ...
-            grad_proj_R(matched_proj_edges(i,:));
-        edge_grad_proj_G(i,1:nr_of_proj_edges) = ...
-            grad_proj_G(matched_proj_edges(i,:));
-        edge_grad_proj_B(i,1:nr_of_proj_edges) = ...
-            grad_proj_B(matched_proj_edges(i,:));
+            %compile the edge matrix
+            edge_grad_proj_R(i,1:nr_of_proj_edges) = ...
+                grad_proj_R(matched_proj_edges(i,:));
+            edge_grad_proj_G(i,1:nr_of_proj_edges) = ...
+                grad_proj_G(matched_proj_edges(i,:));
+            edge_grad_proj_B(i,1:nr_of_proj_edges) = ...
+                grad_proj_B(matched_proj_edges(i,:));
+        else
+            unmatched_edges = unmatched_edges + nr_of_cam_edges(i);
+            skipped_rows = [skipped_rows; i];
+        end
     else
         unmatched_edges = unmatched_edges + nr_of_cam_edges(i);
         skipped_rows = [skipped_rows; i];
