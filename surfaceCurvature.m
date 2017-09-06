@@ -6,7 +6,7 @@ function surfaceCurvature(pointcloud)
 %
 
 %Extract vertices data and convert to vector
-x = double(pointcloud.Location(:,1));
+x = double(pointcloud.Location(:,1)); %double included to keep gridfit happy
 y = double(pointcloud.Location(:,2));
 z = double(pointcloud.Location(:,3));
 
