@@ -1,4 +1,4 @@
-function edgeMatching(imagename, orientation, savefile)
+%function edgeMatching(imagename, orientation, savefile)
 % This is the main edge matching algorithm
 %
 %Created by: Jaco Verster (versterrie@gmail.com)
@@ -282,6 +282,9 @@ loc_proj_edges = find(edges_proj(1,:) == 1);
 
 %allocate memory for matched projector edges
 matched_proj_edges = NaN([S_cam(1) nr_of_proj_edges],'double');
+edge_grad_proj_R = NaN([S_cam(1) nr_of_proj_edges],'double');
+edge_grad_proj_G = NaN([S_cam(1) nr_of_proj_edges],'double');
+edge_grad_proj_B = NaN([S_cam(1) nr_of_proj_edges],'double');
 
 %Initialize  unmatched_edges variable
 unmatched_edges = 0;
@@ -297,24 +300,19 @@ for i = 1:S_cam(1)
         %store matched projector edges starting from calculated match up to
         %max_edges
         from = matched_loc_in_deB;
-        to = matched_loc_in_deB + nr_of_proj_edges - 1;
+        to = min(length(loc_proj_edges),...
+            matched_loc_in_deB + nr_of_proj_edges - 1);
+        nr_of_matched_edges(i) = to - from + 1;
         
-        %also check if to < length(loc_proj_edges) to ensure the maximum
-        %does not exceed possible edge matches incorrectly
-        if to < length(loc_proj_edges)
-            matched_proj_edges(i,:) = loc_proj_edges(from:to);
+        matched_proj_edges(i,1:nr_of_matched_edges(i)) = loc_proj_edges(from:to);
 
-            %compile the edge matrix
-            edge_grad_proj_R(i,1:nr_of_proj_edges) = ...
-                grad_proj_R(matched_proj_edges(i,:));
-            edge_grad_proj_G(i,1:nr_of_proj_edges) = ...
-                grad_proj_G(matched_proj_edges(i,:));
-            edge_grad_proj_B(i,1:nr_of_proj_edges) = ...
-                grad_proj_B(matched_proj_edges(i,:));
-        else
-            unmatched_edges = unmatched_edges + nr_of_cam_edges(i);
-            skipped_rows = [skipped_rows; i];
-        end
+        %compile the edge matrix
+        edge_grad_proj_R(i,1:nr_of_matched_edges(i)) = ...
+            grad_proj_R(matched_proj_edges(i,1:nr_of_matched_edges(i)));
+        edge_grad_proj_G(i,1:nr_of_matched_edges(i)) = ...
+            grad_proj_G(matched_proj_edges(i,1:nr_of_matched_edges(i)));
+        edge_grad_proj_B(i,1:nr_of_matched_edges(i)) = ...
+            grad_proj_B(matched_proj_edges(i,1:nr_of_matched_edges(i)));
     else
         unmatched_edges = unmatched_edges + nr_of_cam_edges(i);
         skipped_rows = [skipped_rows; i];
@@ -339,7 +337,7 @@ for row = A
     score = zeros(max(nr_of_cam_edges(row))+3,nr_of_proj_edges+3); 
     %Construct the score matrix for each row
     for ec = 1:nr_of_cam_edges(row) %length(cam_edge_grad_R(2,:))
-        for ep = 1:nr_of_proj_edges
+        for ep = 1:nr_of_matched_edges(row)
             %Compute match score matrix for each row
             score(ec,ep) = min([...
         consistency(edge_grad_proj_R(row,ep),edge_grad_cam_R(row,ec)),...
