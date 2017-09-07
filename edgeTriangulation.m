@@ -34,26 +34,31 @@ load(['cleaned_up_image_(',imagename,').mat'])
 %Note: 'bounds' variable format => [x1 x2 y1 y2]
 
 %% Determine mapping from projector pixels to optical rays. 
-disp('+ Computing plane equations for projected edges...')
-c = 1:nx_proj;
-r = 1:ny_proj;
-[C,R] = meshgrid(c,r);
+if exist('Op') == 0 %Check if Op has be calculated for the camera before.
+    disp('+ Computing plane equations for projected edges...')
+    c = 1:nx_proj;
+    r = 1:ny_proj;
+    [C,R] = meshgrid(c,r);
 
-np  = pixel2ray([C(:) R(:)]',fc_proj,cc_proj,kc_proj,alpha_c_proj); 
+    np  = pixel2ray([C(:) R(:)]',fc_proj,cc_proj,kc_proj,alpha_c_proj); 
 
-%%%translate to camera space unsig XXc = Rc_ext * XX + Tc_ext from
-%http://www.vision.caltech.edu/bouguetj/calib_doc/htmls/parameters.htmll
-np = R_proj'*(np - T_proj*ones(1,size(np,2)));
+    %%%translate to camera space unsig XXc = Rc_ext * XX + Tc_ext from
+    %http://www.vision.caltech.edu/bouguetj/calib_doc/htmls/parameters.htmll
+    np = R_proj'*(np - T_proj*ones(1,size(np,2)));
 
-%Reshape data to a matrix format that matches the Projector dimensions
-Np = zeros([ny_proj nx_proj 3]);
-Np(:,:,1) = reshape(np(1,:),ny_proj,nx_proj);
-Np(:,:,2) = reshape(np(2,:),ny_proj,nx_proj);
-Np(:,:,3) = reshape(np(3,:),ny_proj,nx_proj);
+    %Reshape data to a matrix format that matches the Projector dimensions
+    Np = zeros([ny_proj nx_proj 3]);
+    Np(:,:,1) = reshape(np(1,:),ny_proj,nx_proj);
+    Np(:,:,2) = reshape(np(2,:),ny_proj,nx_proj);
+    Np(:,:,3) = reshape(np(3,:),ny_proj,nx_proj);
 
-%Calculate the center of the projector in camera coordinates
-Op = -R_proj'*T_proj; 
-
+    %Calculate the center of the projector in camera coordinates
+    Op = -R_proj'*T_proj; 
+    save(['Cam_Proj_calib.mat'],'Np','Op','-append')
+    
+elseif exist('Np') == 1
+    disp('+ Plane equations for projected edges computed previously...')
+end
 %% Estimate plane equations describing every projector column.
 % Notes: 
 % - Resulting coefficient vector is in camera coordinates.
@@ -81,22 +86,28 @@ for i = 1:ny_proj
 end
 
 %% Compute optical rays for each camera pixel
-disp('+ Computing ray-equations for camera pixels...')
-c = 1:nx_cam;
-r = 1:ny_cam;
-[C,R] = meshgrid(c,r);
+if exist('Nc') == 0 %Check if Nc has be calculated for the camera before.
+    disp('+ Computing ray-equations for camera pixels...')
+    c = 1:nx_cam;
+    r = 1:ny_cam;
+    [C,R] = meshgrid(c,r);
 
-nc = pixel2ray([C(:) R(:)]'-1,fc_cam,cc_cam,kc_cam,alpha_c_cam);
-%%%not sure what this '-1' is for - Needs investigating
+    nc = pixel2ray([C(:) R(:)]'-1,fc_cam,cc_cam,kc_cam,alpha_c_cam);
+    %%%not sure what this '-1' is for - Needs investigating
 
-%Re-shape Nc
-Nc = zeros([ny_cam nx_cam 3]);
-Nc(:,:,1) = reshape(nc(1,:),ny_cam,nx_cam);
-Nc(:,:,2) = reshape(nc(2,:),ny_cam,nx_cam);
-Nc(:,:,3) = reshape(nc(3,:),ny_cam,nx_cam);
+    %Re-shape Nc
+    Nc = zeros([ny_cam nx_cam 3]);
+    Nc(:,:,1) = reshape(nc(1,:),ny_cam,nx_cam);
+    Nc(:,:,2) = reshape(nc(2,:),ny_cam,nx_cam);
+    Nc(:,:,3) = reshape(nc(3,:),ny_cam,nx_cam);
 
-%Camera center
-Oc = [0; 0; 0];
+    %Camera center
+    Oc = [0; 0; 0];
+    save(['Cam_Proj_calib.mat'],'Nc','Oc','-append')
+    
+elseif exist('Nc') == 1
+    disp('+ Ray-equations for camera pixels computed previously...')
+end
 
 %% Reconstruct 3D points using intersection with illumination plane(s)
 disp('+ Computing ray-plane intersections reconstructing 3D points...')
