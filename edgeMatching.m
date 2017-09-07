@@ -1,4 +1,4 @@
-%function edgeMatching(imagename, orientation, savefile)
+function edgeMatching(imagename, orientation, savefile)
 % This is the main edge matching algorithm
 %
 %Created by: Jaco Verster (versterrie@gmail.com)
