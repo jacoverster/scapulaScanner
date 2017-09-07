@@ -37,7 +37,7 @@ A = imcrop(I, ...
 disp('+ Applying colour correction...')
 
 %%%RED calibration
-%select a image section with 3 red section
+%select a image section with red vivble
 boundsR = []; 
 figure, imagesc(A); 
 axis image off;
@@ -72,7 +72,7 @@ C{1} = imcrop(R_zoom, ...
     [boundsR(1) boundsR(3) (boundsR(2)-boundsR(1)) (boundsR(4)-boundsR(3))]);
 
 %%%GREEN calibration image
-%select a image section with 3 green section
+%select a image section with green vivble
 boundsG = []; 
 figure, imagesc(A); 
 axis image off;
@@ -89,7 +89,7 @@ close
 G_zoom = imcrop(A, ...
     [boundsG(1) boundsG(3) (boundsG(2)-boundsG(1)) (boundsG(4)-boundsG(3))]);
 
-%select a clear red section
+%select a clear green section
 boundsG = []; 
 figure, imagesc(G_zoom); 
 axis image off;
@@ -106,8 +106,8 @@ close
 C{2} = imcrop(G_zoom, ...
     [boundsG(1) boundsG(3) (boundsG(2)-boundsG(1)) (boundsG(4)-boundsG(3))]);
 
-%%%RED calibration image
-%select a image section with 3 red section
+%%%BLUE calibration
+%select a image section with blue vivble
 boundsB = []; 
 figure, imagesc(A); 
 axis image off;
@@ -124,7 +124,7 @@ close
 B_zoom = imcrop(A, ...
     [boundsB(1) boundsB(3) (boundsB(2)-boundsB(1)) (boundsB(4)-boundsB(3))]);
 
-%select a clear red section
+%select a clear blue section
 boundsB = []; 
 figure, imagesc(B_zoom); 
 axis image off;
