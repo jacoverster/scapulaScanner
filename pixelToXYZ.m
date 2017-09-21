@@ -28,7 +28,7 @@ for i = 1:length(pixels(:,1))
     
     %Interpolate to determine more accurate location
     for j = 1:3
-       XYZ(i,j) = XYZ_nearest(j)-(A-B)/(A-C)*(XYZ_nearest(j)-XYZ_sec_nearest(j));
+       XYZ(i,j) = XYZ_nearest(j); %-(A-B)/(A-C)*(XYZ_nearest(j)-XYZ_sec_nearest(j));
     end
 end
 
