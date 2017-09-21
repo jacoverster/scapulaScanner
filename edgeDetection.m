@@ -40,7 +40,7 @@ for i = 1:S(1)
     %[pks, locs] = findpeaks(GRAD,'MinPeakDistance',stripewidth-5,...
     %    'MinPeakProminence',0.001); 
     [pks, locs] = findpeaks(GRAD,'MinPeakProminence',0.001,...
-        'MinPeakWidth',1); %to remove "stripewidth from the inputs
+        'MinPeakDistance',10); 
     
     PEAK = [locs(:), pks(:)];
     
