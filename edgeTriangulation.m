@@ -194,13 +194,13 @@ ptCloudDenoise = pcdenoise(ptCloudValid,'NumNeighbors',25);
 % Display the point cloud with per-vertex color.
 %player = pcplayer(ptCloud.XLimits,ptCloud.YLimits,[480,560]);
 %view(player,ptCloudDenoise)
-figure(2), pcshow(ptCloudValid)
+figure(4), pcshow(ptCloudDenoise)
 xlabel('x'), ylabel('y'), zlabel('z')
 
 %% Save the pointCloud to a file:
 disp('+ Saving data...')
 if savefile == 1;
-    pcwrite(ptCloudValid,['pointCloud_',imagename])
+    pcwrite(ptCloudDenoise,['pointCloud_',imagename])
     save(['matched_edges_(',imagename,').mat'],'matched_cam_edges',...
         'matched_proj_edges','Rcam','Gcam','Bcam','vertices')
     display('Results SAVED.')
