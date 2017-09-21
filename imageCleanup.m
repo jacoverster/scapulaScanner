@@ -191,6 +191,9 @@ end
 B = imcrop(I, ...
     [bounds(1) bounds(3) (bounds(2)-bounds(1)) (bounds(4)-bounds(3))]);
 
+imshow(B); title('Colour corrected image')
+fprintf('Imange Cleanup paused. Press enter to continue.\n');
+pause;
 %% %%%%%Noise filtering%%%%%
 disp('+ Applying Non-linear means filter...')
 
@@ -219,7 +222,7 @@ for y = bounds(1):bounds(2)
 end
 
 %% %%%%%Remove dark pixels%%%%%
-threshold = 0.05;
+threshold = 0.03;
 disp(['+ Removing dark pixels (with threshold = '...
     ,num2str(threshold),')...'])
 
