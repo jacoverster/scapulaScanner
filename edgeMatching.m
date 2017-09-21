@@ -219,14 +219,15 @@ colM =  [1 1 0; %yellow = 3
     
 RGB_pattern = nan(S_cam(1),6); %allocate memory
 %%%%%%%%%%%%%%%%%%%RGB_pattern = nan(1,6);
-col_threshold = 0.3;  %%%THIS THRESHOLD VALUE IS VERY IMPORTANT
+col_threshold = 0.6;  %%%THIS THRESHOLD VALUE IS VERY IMPORTANT
 for row = 1:S_cam(1)
     for i = 1:6
         %Extract colour information from cell and apply thresholding
         A = RGB{row,i};
+        col_max = max(A); %records the maximum value across colour channels
         if isempty(A) == 0
             for j = 1:3
-                if A(j) > col_threshold
+                if A(j) > col_threshold*col_max
                     RGB{row,i}(j) = 1;
                 else
                     RGB{row,i}(j) = 0;
