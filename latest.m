@@ -16,7 +16,7 @@ z = z(:);
 pts = [x(1:1000:40000),y(1:1000:40000),z(1:1000:40000)];
 
 %load surface created using gridfit.m
-surface = stlread('test.stl') 
+surface = stlread('test2.stl') 
 
 %calculate distance from points to tri-mesh using point2trimesh.m
 [distances,surface_points] = point2trimesh(surface, 'QueryPoints', pts); 
@@ -32,7 +32,7 @@ mean(abs(distances))
 %select pixels on the image
 load('cleaned_up_image_(nic01.JPG).mat')
 imshow(Icrop)
-pixels = [1,1; 211,211; 211,780; 714,1147];
+pixels = [1,1; 211,211; 780,211; 1147,714];
 XYZ = pixelToXYZ(pixels,matched_cam_edges,vertices); %this fn is now vectorised
 
 %calculate distances from points to pointcloud vertices
