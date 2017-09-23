@@ -164,12 +164,15 @@ for row = 1:S_cam(1)
         dif = diff(a2(row,col:(col+4)));
         val = a2(row,col);
         val2 = isnan(dif);
+        val3 = abs(max(dif)-min(dif));
         if val <= mean_edge_dist2(row)+4 &&...%check upper limit
                 val >= mean_edge_dist2(row)-4 &&... %check lower limit 
                 loc_cam_edges(row,col) > mean_edge_dist2(row)/1.8 &&...
-                any(val2) == 0
+                any(val2) == 0 &&...
+                val3 <= min_edge_dist(row);        
                 %check that first edge is far enough from the edge of Icam
-                %and that there are no NaN values
+                %and that there are no NaN values (val2)
+                %and that the edges are not too far apart (val3)
             %Save the consecutive edge data as follows:
             %column 1 = edge number
             conseqEdge(row,1) = col;
@@ -219,7 +222,7 @@ colM =  [1 1 0; %yellow = 3
     
 RGB_pattern = nan(S_cam(1),6); %allocate memory
 %%%%%%%%%%%%%%%%%%%RGB_pattern = nan(1,6);
-col_threshold = 0.6;  %%%THIS THRESHOLD VALUE IS VERY IMPORTANT
+col_threshold = 0.3;  %%%THIS THRESHOLD VALUE IS VERY IMPORTANT
 for row = 1:S_cam(1)
     for i = 1:6
         %Extract colour information from cell and apply thresholding
