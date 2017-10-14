@@ -1,4 +1,4 @@
-function [gx,gy,gz,H] = surfaceCurvature(imagename,pointcloud,plot)
+function [gx,gy,gz,H,Pmax] = surfaceCurvature(imagename,pointcloud,plot)
 % This function calculates the surface curvature from a set of points
 %Inputs: 
 %   - imagename
@@ -6,7 +6,7 @@ function [gx,gy,gz,H] = surfaceCurvature(imagename,pointcloud,plot)
 %   - plot = 1/other - only produces plots if value is exactly 1
 % 
 %Created by: Jaco Verster (versterrie@gmail.com)
-%
+%range
 
 %Extract vertices data and convert to vector
 x = double(pointcloud.Location(:,1)); %double included to keep gridfit happy

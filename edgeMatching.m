@@ -100,7 +100,7 @@ for i = 1:S_cam(1)
 end
 
 %% Determine the location of the detected edges inside the deBruijn pattern
-disp('+ Determining edge location inside deBruin patter...')
+disp('+ Determining edge location inside deBruin pattern...')
 %Determine the average distance between edges for loc_cam_edges in the
 %edge_matching script
 
