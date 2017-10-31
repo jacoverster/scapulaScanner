@@ -160,7 +160,8 @@ elseif S_cam(1) > S_cam(2) %Portrait method
 
     for y = 1:length(matched_cam_edges(:,1)) %bounds(3)&(4) in play
         for x = length(matched_cam_edges(1,:)):-1:1 %bounds(1)&(2) in play
-            if ~isnan(matched_cam_edges(y,x))
+            if ~isnan(matched_cam_edges(y,x)) && ...
+                    ~isnan(matched_proj_edges(y,x))
                 cam_row = ny_cam - (matched_cam_edges(y,x) + bounds(1));
                 cam_col = y + bounds(3) - 1;
                 proj_row = ny_proj - matched_proj_edges(y,x);

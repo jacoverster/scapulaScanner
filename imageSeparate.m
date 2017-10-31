@@ -2,7 +2,7 @@
 %calibration
 
 %Go to images location
-images_loc = '/Users/jacoverster/Desktop/Test_scan_data/2017_09_12/';
+images_loc = '/Users/jacoverster/Desktop/Test_scan_data/2017_10_28/';
 
 nr_of_images = 13;
 image_basename = 'canon';
@@ -14,10 +14,10 @@ for i = 1:nr_of_images
     I = imread(strcat(image_basename,num2str(i),fileType));
     R = I(:,:,1);
     B = I(:,:,3);
-    cd '/Users/jacoverster/Desktop/Test_scan_data/2017_09_12/camCal'
+    cd '/Users/jacoverster/Desktop/Test_scan_data/2017_10_28/camCal'
     imwrite(R, [image_basename,num2str(i),'.jpg']);
     
-    cd '/Users/jacoverster/Desktop/Test_scan_data/2017_09_12/projCal'
+    cd '/Users/jacoverster/Desktop/Test_scan_data/2017_10_28/projCal'
     imwrite(B, [image_basename,num2str(i),'.jpg']);
     disp(['Image ',num2str(i),' of ',num2str(nr_of_images),' done.'])
 end

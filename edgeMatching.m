@@ -295,7 +295,7 @@ unmatched_edges = 0;
 skipped_rows = [];
 
 %compile the edge matrix with associated gradient values
-for i = 1:S_cam(1)
+for i = 1077:S_cam(1)
     %first check if loc_in_deBruijn exists, if not skip row and make note
     if isnan(loc_in_deBruijn(i)) == 0 
         %calculate the first term according to the mathced deB pattern
