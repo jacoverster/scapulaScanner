@@ -295,7 +295,7 @@ unmatched_edges = 0;
 skipped_rows = [];
 
 %compile the edge matrix with associated gradient values
-for i = 1077:S_cam(1)
+for i = 1:S_cam(1)
     %first check if loc_in_deBruijn exists, if not skip row and make note
     if isnan(loc_in_deBruijn(i)) == 0 
         %calculate the first term according to the mathced deB pattern
@@ -444,8 +444,8 @@ Percentage_unmatched = 100*unmatched_edges/numel(matched_cam_edges)
 %verify good matching
 cam_win = 25;
 proj_win = 10;
-marker1 = 0.25;
-marker2 = 0.75;
+marker1 = 0.20;
+marker2 = 0.70;
 
 plotRow_1 = round(min(S_cam(1),S_proj(1))*marker1);
 plotRow_2 = round(min(S_cam(1),S_proj(1))*marker2);
