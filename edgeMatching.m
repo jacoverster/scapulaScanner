@@ -1,8 +1,6 @@
 function edgeMatching(imagename, orientation, savefile)
 % This is the main edge matching algorithm
 %
-%Created by: Jaco Verster (versterrie@gmail.com)
-%
 %Inputs: current_deB_I.mat (can be created manually from this script) and
 %cleaned_up_image_(capture1.JPG).mat that is saved from imageCleanup.m
 %
@@ -10,6 +8,8 @@ function edgeMatching(imagename, orientation, savefile)
 %where each detected edge pixel in the camera image is mathced to a
 %projected plane in the projector image. "matched_cam_edges" contains NaN
 %for theses unmathced pixels.
+%
+%Created by: Jaco Verster (versterrie@gmail.com)
 
 %Clear the workspace variables and close everything
 %clc, clear , close all
@@ -119,7 +119,7 @@ max_edges = max(nr_of_cam_edges);
 
 %Manipulate loc_cam_edges to place undetected edges in the correct location
 %and to remove false positives
-for row = 1:S_cam(1)
+for row = 1404:S_cam(1)
     skipped_cols = find(a(row,:) > 1.5*mean_edge_dist(row));
     if isempty(skipped_cols) == 0 
         count = 1;
@@ -444,8 +444,8 @@ Percentage_unmatched = 100*unmatched_edges/numel(matched_cam_edges)
 %verify good matching
 cam_win = 25;
 proj_win = 10;
-marker1 = 0.20;
-marker2 = 0.70;
+marker1 = 0.25;
+marker2 = 0.75;
 
 plotRow_1 = round(min(S_cam(1),S_proj(1))*marker1);
 plotRow_2 = round(min(S_cam(1),S_proj(1))*marker2);

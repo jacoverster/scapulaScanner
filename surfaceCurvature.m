@@ -6,7 +6,6 @@ function [gx,gy,gz,H,Pmax] = surfaceCurvature(imagename,pointcloud,plot)
 %   - plot = 1/other - only produces plots if value is exactly 1
 % 
 %Created by: Jaco Verster (versterrie@gmail.com)
-%range
 
 %Extract vertices data and convert to vector
 x = double(pointcloud.Location(:,1)); %double included to keep gridfit happy
@@ -23,7 +22,8 @@ gz = gridfit(x,y,z,gx,gy); %,'regularizer','springs','smoothness',[0.1 1]);
 
 %Calculate surface curvature of the fitted grid
 [X,Y] = meshgrid(gx,gy);
-[K,H,Pmax,Pmin] = surfature(X,Y,gz);
+[K,H,Pmax,Pmin] = surfature(X,Y,gz); %surfature function available from: 
+%https://www.mathworks.com/matlabcentral/fileexchange/11168-surface-curvature
 
 if plot == 1
     %Plot the surface and pointcloud to verify if a good fit was found

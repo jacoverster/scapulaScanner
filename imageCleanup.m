@@ -14,7 +14,7 @@ I = im2double(imread(imagename));
 
 disp('+++ imageCleanup initialized...')
 
-%% %%%%%Select bounding box%%%%%
+%% Select bounding box
 disp('+ Select bounding box...')
 
 bounds = []; 
@@ -33,7 +33,7 @@ close
 A = imcrop(I, ...
     [bounds(1) bounds(3) (bounds(2)-bounds(1)) (bounds(4)-bounds(3))]);
 
-%% %%%%%Colour correction%%%%%
+%% Colour correction
 disp('+ Applying colour correction...')
 
 %%%RED calibration
@@ -149,7 +149,7 @@ for j = 1:3
   crop_P = zeros(size(crop_C));
   cam_colors = [cam_colors crop_C];
   if j == 1
-     crop_P(1,:) = projValue; %Original code modified to account for 1 camera only
+     crop_P(1,:) = projValue;
   elseif j == 2
      crop_P(2,:) = projValue;
   else
@@ -194,7 +194,7 @@ B = imcrop(I, ...
 imshow(B); title('Colour corrected image')
 fprintf('Imange Cleanup paused. Press enter to continue.\n');
 pause;
-%% %%%%%Noise filtering%%%%%
+%% Noise filtering
 disp('+ Applying Non-linear means filter...')
 
 %Crop out the bounded section for filtering and convert to 'double'
@@ -212,7 +212,9 @@ Options.verbose = true;
 Options.filterstrength = 0.1;
 
 %Filter operation
-J = NLMF(C,Options);
+J = NLMF(C,Options); %NLMF function available from:
+%https://www.mathworks.com/matlabcentral/fileexchange/...
+%.../27395-fast-non-local-means-1d--2d-color-and-3d
 
 %Write cropped and filtered data back into image
 for y = bounds(1):bounds(2)
@@ -221,7 +223,7 @@ for y = bounds(1):bounds(2)
     end
 end
 
-%% %%%%%Remove dark pixels%%%%%
+%% Remove dark pixels
 threshold = 0.03;
 disp(['+ Removing dark pixels (with threshold = '...
     ,num2str(threshold),')...'])
@@ -244,7 +246,7 @@ for j = bounds(1):bounds(2)
     end
 end
 
-%% %%%%%Display results%%%%%
+%% Display results
 disp('+ Displaying results...')
 figure,
 subplot(2,2,1),imshow(A); title('Original image')
@@ -253,7 +255,7 @@ subplot(2,2,3),imshow(J); title('Non-linear means filtered image')
 subplot(2,2,4),imshow(DARK(bounds(3):bounds(4),bounds(1):bounds(2)));...
     title('Dark pixels that were removed')
 
-%% %%%%%Save data%%%%%
+%% Save data
 disp('+ Saving data...')
 if ~exist('savefile','var')
     % second parameter does not exist, so default it to something

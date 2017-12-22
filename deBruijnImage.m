@@ -1,4 +1,4 @@
-%function deB_I = deBruijnImage(col,row,colPixels,savefile)
+function deB_I = deBruijnImage(col,row,colPixels,savefile)
 %This function creates a col x row de Bruijn image  using 6 colours 
 %and a specified pixel-width for each colour band. A deBruijn pattern
 %with k = 3 (the effective number of colours is 3 because of the XOR == 2

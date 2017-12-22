@@ -1,9 +1,14 @@
-%Image to mesh script
+%imageToPointcloud
+%
+%This script calls all the required functions that convert a camera image
+%to a pointcloud. The pointcloud post-processing is also done using this
+%script.
+
 clc, clear ,close all
 
-tic
+tic %timer started
 
-imagename = '2017-11-15_mia_45a.JPG';
+imagename = '2017-11-15_mia_0b.JPG';
 orientation = 'P'; %L = landscape, P = portrait
 
 imageCleanup(imagename,1);
@@ -12,27 +17,32 @@ edgeMatching(imagename,orientation,1);
 
 edgeTriangulation(imagename,1);
 
-toc
+toc %timer stopped
 
 pause;
-%%
+%% Pointcloud post processing:
 pointcloud = pcread(['pointCloud_',imagename,'clean.ply']);
 %pcshow(pointcloud)
 [gx,gy,gz,H,Pmax] = surfaceCurvature(imagename,pointcloud,0);
 
 load(['matched_edges_(',imagename,').mat'])
 load(['cleaned_up_image_(',imagename,').mat'])
-    
+
 pixels = selectPixels(Icrop,3)
 xyz = pixelToXYZ(pixels,matched_cam_edges,vertices)
-%use when pixels are already selected
-%points = stlread(['pointsOnSurface_',imagename,'.stl'])
-%xyz = points.vertices
+
+%This alternative "xyz" can be used when pixels are already pre-selected or
+%saved previously:
+    %points = stlread(['pointsOnSurface_',imagename,'.stl'])
+    %xyz = points.vertices
 
 surface = stlread(['pointSurface_',imagename,'.stl']);
 
 %calculate distance from points to tri-mesh using point2trimesh.m
 [distances,surface_points] = point2trimesh(surface, 'QueryPoints', xyz);
+%point2trimesh function available from: https://www.mathworks.com/...
+%.../matlabcentral/fileexchange/...
+%.../52882-point2trimesh------distance%C2%A0between-point-and-triangulated-surface
 
 %Extract Pmax location
 [Pmax_max,I] = max(Pmax(:))
@@ -42,11 +52,15 @@ surface = stlread(['pointSurface_',imagename,'.stl']);
 XZslice = [gx; -gz(row_max,:)];
 Pmax_point = [X(row_max,col_max) Y(row_max,col_max) gz(row_max,col_max)]
 
-createfigure1(-gx,gy,-gz,H,-xyz(:,1),...
-    xyz(:,2),-xyz(:,3),...
-    -Pmax_point(:,1),Pmax_point(:,2),-Pmax_point(:,3),...
-    -surface_points(:,1),surface_points(:,2),-surface_points(:,3));
-
+createFigure(-gx, gy, -gz, H,...
+    -surface_points(:,1), surface_points(:,2), -surface_points(:,3));
+    %-xyz(:,1), xyz(:,2), -xyz(:,3),...
+    %-Pmax_point(:,1), Pmax_point(:,2), -Pmax_point(:,3)
+    
+    %set plot axis limits
+    xlim([min(-gx) max(-gx)])
+    ylim([min(gy) max(gy)])
+    
 point_2_pointcloud_avg = mean(abs(distances)) 
 
 stlwrite(['pointsOnSurface_',imagename,'.stl'],...
@@ -79,3 +93,5 @@ AA_row = find(gy <= (surface_points(3,2)+2) & gy > (surface_points(3,2)-2));
 % axis equal
 %}
 
+%Show H value at IA, MB and AA
+H_landmarks = [H(IA_row,IA_col); H(MB_row,MB_col); H(AA_row,AA_col)]

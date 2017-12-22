@@ -2,7 +2,6 @@ function edgeTriangulation(imagename,savefile)
 % This is the main triangulation algorithm for creating a pointcloid
 % 
 %Created by: Jaco Verster (versterrie@gmail.com)
-%
 
 %Clear the workspace variables and close everything
 %clc, clear , close all
@@ -33,7 +32,7 @@ load(['matched_edges_(',imagename,').mat'])
 load(['cleaned_up_image_(',imagename,').mat'])
 %Note: 'bounds' variable format => [x1 x2 y1 y2]
 
-%% Determine mapping from projector pixels to optical rays. 
+%% Determine mapping from projector pixels to optical rays 
 if exist('Op') == 0 %Check if Op has be calculated for the camera before.
     disp('+ Computing plane equations for projected edges...')
     c = 1:nx_proj;
@@ -59,7 +58,7 @@ if exist('Op') == 0 %Check if Op has be calculated for the camera before.
 elseif exist('Np') == 1
     disp('+ Plane equations for projected edges computed previously...')
 end
-%% Estimate plane equations describing every projector column.
+%% Estimate plane equations describing every projector column
 % Notes: 
 % - Resulting coefficient vector is in camera coordinates.
 % - fitPlane.m tested and confirmed using an online calculator: 
@@ -198,7 +197,7 @@ ptCloudDenoise = pcdenoise(ptCloudValid,'NumNeighbors',25);
 figure, pcshow(ptCloudValid)
 xlabel('x'), ylabel('y'), zlabel('z')
 
-%% Save the pointCloud to a file:
+%% Save the pointCloud to a file
 disp('+ Saving data...')
 if savefile == 1;
     pcwrite(ptCloudValid,['pointCloud_',imagename])
@@ -212,4 +211,5 @@ end
 disp('++ edgeTriangulation done!')
 
 %more info about using pointclouds can be found at:
-%http://www.geo.tuwien.ac.at/downloads/pg/pctools/publish/pointCloudIntro/html/pointCloudIntro.html
+%http://www.geo.tuwien.ac.at/downloads/pg/pctools/publish/...
+%.../pointCloudIntro/html/pointCloudIntro.html
